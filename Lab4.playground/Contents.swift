@@ -1,18 +1,22 @@
 import Foundation
 // MARK: - Entities
-// 1:M, one author can have many books
+
+//Bridge Entity, has key for an author and a draft, as publications can have multiple authors, and authors can write multiple books.
+struct Publication: Codable {
+    let authorID: Int  // Primary & Foreign Key
+    let draftID: Int // Primary & Foreign Key
+    let publicationDate: Date
+}
 struct Author: Codable {
     let id: Int //Primary Key
     let firstName: String
     let lastName: String
 }
 // M:1, many books can have 1 author
-struct Book: Codable {
+struct Draft: Codable {
     let id: Int //Primary Key
     let genre: String
     let title: String
-    let publicationDate: Date
-    let authorID: Int //Foreign Key
 }
 // 1:M. one member has many loans
 struct Member: Codable {
@@ -41,11 +45,14 @@ let authors: [Author] = [
     Author(id: 2, firstName: "Stephen", lastName: "King")
 ]
 
-let books: [Book] = [
-    Book(id: 1, genre: "fantasy", title: "Percy Jackson", publicationDate: formatter.date(from: "2005-07-28")!, authorID: 1),
-    Book(id: 2, genre: "Horror", title: "The Shining", publicationDate: formatter.date(from: "1997-01-28")!, authorID: 2)
+let drafts: [Draft] = [
+    Draft(id: 1, genre: "fantasy", title: "Percy Jackson"),
+    Draft(id: 2, genre: "Horror", title: "The Shining")
 ]
-
+let publications: [Publication] = [
+    Publication(authorID: 1, draftID: 1, publicationDate: formatter.date(from: "2005-06-28")!),
+    Publication(authorID: 2, draftID: 2, publicationDate: formatter.date(from: "1997-01-28")!)
+]
 let members: [Member] = [
     Member(id: 1, firstName: "Luca", lastName: "Jungkeit", email: "ljungkeit@vt.edu", isActive: true),
     Member(id: 2, firstName: "Rayan", lastName: "Charah", email: "rayancharah@vt.edu", isActive: true)
